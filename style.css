@@ -16,7 +16,8 @@ body{
   font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
 }
 header{padding:28px 16px 10px;text-align:center}
-.lang{display:flex;gap:6px;justify-content:flex-end;max-width:900px;margin:0 auto 6px}
+.lang{display:grid;grid-template-columns:repeat(3,auto);gap:6px 6px;justify-content:end;max-width:900px;margin:0 auto 6px}
+.lang a{justify-self:center}
 .lang button{
   background:transparent;border:1px solid #3a3a3e;color:var(--muted);
   padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:1px;
@@ -99,3 +100,8 @@ main{max-width:900px;margin:0 auto 60px;padding:0 16px}
   .row-sub,.row-bar{padding-left:0}
   .team{justify-content:center}
 }
+
+/* ---- соцкнопки в шапке ---- */
+.lang a{display:block;width:26px;height:26px}
+.lang svg,.lang .soc-img{display:block;width:26px;height:26px;transition:transform .15s}
+.lang a:hover svg,.lang a:hover .soc-img{transform:scale(1.15)}
