@@ -158,15 +158,15 @@ function badgeText(n){
 /* ============ ПЕРЕВОДЫ ============ */
 const I18N={
   ru:{slogan:"Ишь ты, Масленица! / граундхоппер из Сибири",locale:"ru-RU",
-      tabs:{matches:"Матчи",clubs:"Клубы",stadiums:"Стадионы",cities:"Города"},
+      tabs:{matches:"Матчи",clubs:"Клубы",stadiums:"Стадионы",countries:"Страны",cities:"Города"},
       stats:{matches:"матчей",countries:"стран",stadiums:"стадионов",cities:"городов",clubs:"клубов"},
       new:"новый стадион",free:"бесплатно",all:"Все"},
   en:{slogan:"Well, well — it's Maslenitsa! / groundhopper from Siberia",locale:"en-GB",
-      tabs:{matches:"Matches",clubs:"Clubs",stadiums:"Stadiums",cities:"Cities"},
+      tabs:{matches:"Matches",clubs:"Clubs",stadiums:"Stadiums",countries:"Countries",cities:"Cities"},
       stats:{matches:"matches",countries:"countries",stadiums:"stadiums",cities:"cities",clubs:"clubs"},
       new:"new stadium",free:"free entry",all:"All"},
   zh:{slogan:"哟，是的 — 谢肉节到了！/ 来自西伯利亚的球场旅行者",locale:"zh-CN",
-      tabs:{matches:"比赛",clubs:"俱乐部",stadiums:"体育场",cities:"城市"},
+      tabs:{matches:"比赛",clubs:"俱乐部",stadiums:"体育场",countries:"国家",cities:"城市"},
       stats:{matches:"场",countries:"国家",stadiums:"体育场",cities:"城市",clubs:"俱乐部"},
       new:"新体育场",free:"免费",all:"全部"}
 };
@@ -335,18 +335,27 @@ function aggCities(){
   return[...map.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 }
 
+function aggCountries(){
+  const t=T();
+  const map=new Map();
+  for(const m of MATCHES){
+    if(!map.has(m.cc))map.set(m.cc,{count:0,cities:new Set(),stads:new Set()});
+    const e=map.get(m.cc);e.count++;e.cities.add(m.ct);e.stads.add(m.st);
+  }
+  return[...map.entries()].map(([c,e])=>({name:countryName(c),country:c,
+    sub:e.cities.size+" "+t.stats.cities+" · "+e.stads.size+" "+t.stats.stadiums,
+    count:e.count})).sort((a,b)=>b.count-a.count);
+}
+
 function render(){
   const t=T();
   document.getElementById("slogan").textContent=t.slogan;
-  document.querySelectorAll("#tabs button").forEach(b=>{
-    b.textContent=t.tabs[b.dataset.t];
-    b.classList.toggle("on",b.dataset.t===tab);
-  });
   document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===lang));
   renderStats();
   if(tab==="matches")renderMatches();
   else if(tab==="clubs")content(listHTML(aggClubs()));
   else if(tab==="stadiums")content(listHTML(aggStadiums()));
+  else if(tab==="countries")content(listHTML(aggCountries()));
   else content(listHTML(aggCities()));
 }
 
@@ -356,12 +365,16 @@ const MAP_URL="https://www.google.com/maps/d/u/0/edit?mid=1ZVQb9u8lfBeSaSMGkvcbn
 /* Статистика зафиксирована по данным владельца: 101 матч, 2 страны, 18 стадионов, 11 городов, 82 клуба */
 function renderStats(){
   const FIXED={stadiums:18,matches:101,countries:2,cities:11,clubs:82};
-  const s=T().stats;
+  const s=T();
   const card=(v,l)=>'<div class="st"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
   const linkCard=(v,l)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l)+"</a>";
-  document.getElementById("stats").innerHTML=
-    linkCard(FIXED.stadiums,s.stadiums)+card(FIXED.matches,s.matches)+
-    card(FIXED.countries,s.countries)+card(FIXED.cities,s.cities)+card(FIXED.clubs,s.clubs);
+  const order=["stadiums","matches","countries","cities","clubs"];
+  document.getElementById("statgrid").innerHTML=order.map(k=>
+    '<div class="col">'
+    +(k==="stadiums"?linkCard(FIXED[k],s.stats[k]):card(FIXED[k],s.stats[k]))
+    +'<button data-t="'+k+'"'+(tab===k?' class="on"':'')+'>'+s.tabs[k]+"</button>"
+    +"</div>"
+  ).join("");
 }
 
 /* ============ ЦВЕТ МЕТКИ: кленовый сироп ============ */
@@ -384,8 +397,8 @@ function renderStats(){
 })();
 
 /* ============ СОБЫТИЯ ============ */
-document.getElementById("tabs").addEventListener("click",e=>{
-  const b=e.target.closest("button");if(!b)return;
+document.getElementById("statgrid").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-t]");if(!b)return;
   tab=b.dataset.t;render();
 });
 document.querySelector(".lang").addEventListener("click",e=>{

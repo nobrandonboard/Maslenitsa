@@ -16,8 +16,8 @@ body{
   font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
 }
 header{padding:28px 16px 10px;text-align:center}
-.lang{display:grid;grid-template-columns:repeat(3,auto);gap:6px 6px;justify-content:end;max-width:900px;margin:0 auto 6px}
-.lang a{justify-self:center}
+.lang{display:flex;gap:10px;justify-content:flex-end;max-width:900px;margin:0 auto 6px}
+.lcol{display:flex;flex-direction:column;align-items:center;gap:5px}
 .lang button{
   background:transparent;border:1px solid #3a3a3e;color:var(--muted);
   padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:1px;
@@ -26,25 +26,24 @@ header{padding:28px 16px 10px;text-align:center}
 .pancake{font-size:40px}
 h1{margin:6px 0 2px;font-size:34px;color:var(--amber);letter-spacing:1px}
 .slogan{margin:0;color:var(--muted);font-style:italic;font-size:14px}
-.stats{
+.statgrid{
   display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
   max-width:900px;margin:18px auto 0;
 }
-.st{
+.statgrid .col{display:flex;flex-direction:column;gap:8px;width:108px}
+.statgrid .st-link{display:block;text-decoration:none;color:inherit}
+.statgrid .st{
   background:var(--card);border:1px solid #2c2c30;border-radius:12px;
-  padding:12px 18px;min-width:86px;
+  padding:10px 4px;width:100%;
 }
 .st .v{font-size:24px;font-weight:700;color:var(--amber)}
 .st .l{font-size:12px;color:var(--muted);margin-top:2px}
-.tabs{
-  display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
-  max-width:900px;margin:20px auto;padding:0 16px;
-}
-.tabs button{
+.statgrid .col button{
   background:var(--card);border:1px solid #2c2c30;color:var(--muted);
-  padding:9px 22px;border-radius:999px;cursor:pointer;font-size:14px;
+  padding:9px 2px;border-radius:999px;cursor:pointer;font-size:13.5px;width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.tabs button.on,.tabs button:hover{background:var(--amber);color:#151515;border-color:var(--amber);font-weight:600}
+.statgrid .col button.on,.statgrid .col button:hover{background:var(--amber);color:#151515;border-color:var(--amber);font-weight:600}
 main{max-width:900px;margin:0 auto 60px;padding:0 16px}
 
 /* ---- карточка матча ---- */
@@ -102,6 +101,6 @@ main{max-width:900px;margin:0 auto 60px;padding:0 16px}
 }
 
 /* ---- соцкнопки в шапке ---- */
-.lang a{display:block;width:26px;height:26px}
-.lang svg,.lang .soc-img{display:block;width:26px;height:26px;transition:transform .15s}
-.lang a:hover svg,.lang a:hover .soc-img{transform:scale(1.15)}
+.lcol a{display:block;width:26px;height:26px}
+.lcol svg,.lcol .soc-img{display:block;width:26px;height:26px;transition:transform .15s}
+.lcol a:hover svg,.lcol a:hover .soc-img{transform:scale(1.15)}
