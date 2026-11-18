@@ -41,6 +41,20 @@ h1{color:var(--amber);font-size:30px;margin:6px 0 4px;letter-spacing:1px}
 }
 .chead .lang button.on,.chead .lang button:hover{background:var(--amber);color:#151515;border-color:var(--amber)}
 .chead .lcol svg{display:block;width:26px;height:26px;transition:transform .15s}
+
+/* ---- кнопка «наверх»: овал как НАЗАД, повёрнут на 90°, стрелка вверх ---- */
+.toTop{
+  position:fixed;right:18px;bottom:54px;z-index:50;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--card);border:1px solid #2c2c30;color:var(--muted);
+  padding:9px 2px;width:108px;border-radius:999px;cursor:pointer;
+  box-sizing:border-box;transform:rotate(90deg);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .25s,visibility .25s,background-color .15s,color .15s,border-color .15s;
+}
+.toTop.show{opacity:1;visibility:visible;pointer-events:auto}
+.toTop:hover{background:var(--amber);color:#151515;border-color:var(--amber)}
+.toTop svg{display:block}
 </style>
 </head>
 <body>
@@ -405,7 +419,57 @@ h1{color:var(--amber);font-size:30px;margin:6px 0 4px;letter-spacing:1px}
       }catch(err){}
     });
   }
+
+  /* кнопка «наверх»: появляется, когда верх страницы (кнопка НАЗАД) уходит с экрана */
+  var toTop = document.getElementById('toTop');
+  if(toTop){
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        toTop.classList.toggle('show', !entries[0].isIntersecting);
+      },{rootMargin:'-60px 0px 0px 0px'});
+      io.observe(back);
+    }else{
+      var onScroll = function(){
+        toTop.classList.toggle('show', (window.scrollY||document.documentElement.scrollTop) > 160);
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    }
+    toTop.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
 })();
 </script>
+<button class="toTop" id="toTop" aria-label="Наверх" title="Наверх"><svg width="46" height="16" viewBox="0 0 48 16" aria-hidden="true"><path d="M46 8 H5 M13 2 L5 8 L13 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<!-- ===== КНОПКА «НАВЕРХ» ===== -->
+<style>
+:root{--tt-size:48px;--tt-arrow:16px}
+#toTopWrap{position:fixed;right:16px;bottom:16px;z-index:9999;width:var(--tt-size);height:150px;pointer-events:none}
+#toTopBtn{position:absolute;left:50%;top:50%;width:150px;height:var(--tt-size);
+  margin:calc(var(--tt-size)/-2) 0 0 -75px;transform:rotate(90deg);border-radius:999px;
+  background:var(--card,#1c1c1e);border:1px solid #2c2c30;color:var(--muted,#9aa0a6);
+  font-size:var(--tt-arrow);line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease,background .2s,color .2s,border-color .2s}
+#toTopWrap.show{pointer-events:auto}
+#toTopWrap.show #toTopBtn{opacity:1}
+#toTopBtn:hover{background:var(--amber,#ffb020);color:#151515;border-color:var(--amber,#ffb020)}
+</style>
+<script>
+(function(){
+  var wrap=document.createElement('div');wrap.id='toTopWrap';
+  var btn=document.createElement('button');btn.id='toTopBtn';btn.type='button';
+  btn.setAttribute('aria-label','Наверх');
+  btn.innerHTML='\u2191';
+  wrap.appendChild(btn);document.body.appendChild(wrap);
+  function sync(){wrap.classList.toggle('show',window.scrollY>180);}
+  window.addEventListener('scroll',sync,{passive:true});
+  sync();
+  btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+<!-- ===== /КНОПКА «НАВЕРХ» ===== -->
 </body>
 </html>
