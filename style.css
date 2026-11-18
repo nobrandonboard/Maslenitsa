@@ -43,7 +43,8 @@ h1{margin:6px 0 2px;font-size:34px;color:var(--amber);letter-spacing:1px}
   padding:9px 2px;border-radius:999px;cursor:pointer;font-size:13.5px;width:100%;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.statgrid .col button.on,.statgrid .col button:hover{background:var(--amber);color:#151515;border-color:var(--amber);font-weight:600}
+.statgrid .col button[data-t].on,.statgrid .col button[data-t]:hover{background:var(--amber);color:#151515;border-color:var(--amber);font-weight:600}
+.statgrid .col button:not([data-t]){cursor:default}
 main{max-width:900px;margin:0 auto 60px;padding:0 16px}
 
 /* ---- карточка матча ---- */

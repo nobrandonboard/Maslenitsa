@@ -234,6 +234,7 @@ let tab="stadiums";
 let yearFilter="all";
 let stFilter=null;
 let countryFilter=null;
+let ccStFilter=null;
 function T(){return I18N[lang];}
 function countryName(c){const o=COUNTRY[c];return o?o[lang]:c;}
 function roundText(r){
@@ -373,6 +374,17 @@ function aggCities(){
   return[...map.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 }
 
+function renderStadiums(){
+  const t=T();
+  let items=aggStadiums();
+  if(ccStFilter)items=items.filter(i=>i.country===ccStFilter);
+  let html="";
+  if(ccStFilter){
+    html='<div class="stbanner"><span><b>'+t.ctl+'</b> <span class="stb-name">'+countryName(ccStFilter)+'</span> · <span class="stb-cnt">'+items.length+'</span></span><button class="stclear">'+t.clr+"</button></div>";
+  }
+  content(html+listHTML(items,true));
+}
+
 function aggCountries(){
   const t=T();
   const map=new Map();
@@ -392,7 +404,7 @@ function render(){
   renderStats();
   if(tab==="matches")renderMatches();
   else if(tab==="clubs")content(listHTML(aggClubs()));
-  else if(tab==="stadiums")content(listHTML(aggStadiums(),true));
+  else if(tab==="stadiums")renderStadiums();
   else if(tab==="countries")content(listHTML(aggCountries(),"cc"));
   else content(listHTML(aggCities()));
 }
@@ -401,17 +413,21 @@ function render(){
 const MAP_URL="https://www.google.com/maps/d/u/0/edit?mid=1ZVQb9u8lfBeSaSMGkvcbnLCBwhezRBo&usp=sharing";
 
 /* Статистика зафиксирована по данным владельца: 101 матч, 2 страны, 18 стадионов, 11 городов, 82 клуба */
+const STAT_BTNS=["stadiums","countries"];
+
 function renderStats(){
   const FIXED={stadiums:18,matches:101,countries:2,cities:11,clubs:82};
   const s=T();
   const card=(v,l)=>'<div class="st"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
-  const ccard=(v,l)=>'<div class="st st-click"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
+  const ccard=(v,l,t)=>'<div class="st st-click" data-tab="'+(t||"countries")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
   const linkCard=(v,l)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l)+"</a>";
   const order=["stadiums","matches","countries","cities","clubs"];
   document.getElementById("statgrid").innerHTML=order.map(k=>
     '<div class="col">'
-    +(k==="stadiums"?linkCard(FIXED[k],s.stats[k]):k==="countries"?ccard(FIXED[k],s.stats[k]):card(FIXED[k],s.stats[k]))
-    +'<button data-t="'+k+'"'+(tab===k?' class="on"':'')+'>'+s.tabs[k]+"</button>"
+    +(k==="stadiums"?linkCard(FIXED[k],s.tabs[k]):ccard(FIXED[k],s.tabs[k],k))
+    +(STAT_BTNS.indexOf(k)>=0
+        ?'<button data-t="'+k+'"'+(tab===k?' class="on"':'')+'>'+s.tabs[k]+"</button>"
+        :'<button class="static"'+(tab===k?' data-on="1"':'')+'>'+s.tabs[k]+"</button>")
     +"</div>"
   ).join("");
 }
@@ -437,7 +453,7 @@ function renderStats(){
 
 /* ============ СОБЫТИЯ ============ */
 document.getElementById("statgrid").addEventListener("click",e=>{
-  const c=e.target.closest(".st-click");if(c){tab="countries";render();return;}
+  const c=e.target.closest(".st-click");if(c){tab=c.dataset.tab||"countries";render();return;}
   const b=e.target.closest("button[data-t]");if(!b)return;
   if(b.dataset.t==="countries"){window.open("countries.html","_blank");return;}
   tab=b.dataset.t;render();
@@ -451,7 +467,7 @@ document.getElementById("content").addEventListener("click",e=>{
   if(cc){countryFilter=cc.dataset.ccf;stFilter=null;yearFilter="all";tab="matches";render();return;}
   const n=e.target.closest(".name-link");
   if(n){stFilter=n.dataset.stf;countryFilter=null;yearFilter="all";tab="matches";render();return;}
-  if(e.target.closest(".stclear")){stFilter=null;countryFilter=null;renderMatches();return;}
+  if(e.target.closest(".stclear")){stFilter=null;countryFilter=null;ccStFilter=null;if(tab==="matches")renderMatches();else render();return;}
   const s=e.target.closest(".badge-link");
   if(s){gotoStadiumDebut(s.dataset.st);return;}
   const m=e.target.closest(".badge-m");
@@ -459,4 +475,12 @@ document.getElementById("content").addEventListener("click",e=>{
   const b=e.target.closest(".ychip");if(!b)return;
   yearFilter=b.dataset.y;renderMatches();
 });
+/* параметры URL со страницы Страны: index.html?tab=stadiums&cc=TH — вкладка Стадионы, фильтр по стране */
+(function(){
+  const qp=new URLSearchParams(location.search);
+  const qt=qp.get("tab");
+  if(qt&&["matches","clubs","stadiums","countries","cities"].indexOf(qt)>=0)tab=qt;
+  const qc=qp.get("cc");
+  if(qc){ccStFilter=qc;tab="stadiums";}
+})();
 render();
