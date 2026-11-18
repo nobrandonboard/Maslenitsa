@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fake Pancake — Страны</title>
+<style>
+:root{--bg:#121212;--card:#1c1c1e;--card2:#232326;--text:#f2f2f2;--muted:#9aa0a6;--amber:#ffb020;--amber-soft:rgba(255,176,32,.16)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:40px 16px 60px}
+.back{display:inline-block;background:transparent;border:1px solid #3a3a3e;color:var(--muted);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;text-decoration:none;transition:background-color .15s,color .15s,border-color .15s}
+.back:hover{background:var(--amber);color:#151515;border-color:var(--amber)}
+h1{color:var(--amber);font-size:30px;margin:24px 0 4px;letter-spacing:1px}
+.intro{color:var(--muted);font-size:13.5px;margin:0 0 8px}
+.fed-sec{margin-top:34px}
+.fed{color:var(--amber);font-size:19px;margin:0 0 10px;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.fed .cnt{font-size:12px;color:var(--muted);background:var(--card2);border:1px solid #2c2c30;border-radius:999px;padding:2px 10px;font-weight:400}
+.comps{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.comp{font-size:12px;color:var(--muted);background:var(--card2);border:1px solid #2c2c30;border-radius:999px;padding:3px 11px}
+.fnote{color:var(--muted);font-style:italic;font-size:12.5px;margin:0 0 12px}
+.cgrid{display:grid;grid-template-columns:1fr;gap:6px}
+@media(min-width:760px){.cgrid{grid-template-columns:1fr 1fr}}
+.crow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid #2c2c30;border-left:3px solid var(--amber);border-radius:10px;padding:8px 12px}
+.cflag{font-size:18px;line-height:1;width:26px;text-align:center;flex:none}
+.cname{font-size:14.5px;font-weight:600}
+.ccode{margin-left:auto;font-size:12.5px;font-weight:700;letter-spacing:1px;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:2px 8px;flex:none}
+.ccode.nocode{color:var(--muted);background:var(--card2);font-weight:400}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="Fake Pancake.html">&larr; Назад</a>
+  <h1>Страны</h1>
+  <p class="intro">Федерации, турниры и страны с трёхбуквенными кодами ФИФА — всего 234 стран и территорий.</p>
+  <section class="fed-sec">
+  <h2 class="fed">Confederación Sudamericana de Fútbol<span class="cnt">10</span></h2>
+  <div class="comps"><span class="comp">CONMEBOL Copa America</span><span class="comp">CONMEBOL Libertadores</span><span class="comp">CONMEBOL Sudamericana</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇦🇷</span><span class="cname">Argentina</span><span class="ccode">ARG</span></div>
+  <div class="crow"><span class="cflag">🇧🇴</span><span class="cname">Bolivia</span><span class="ccode">BOL</span></div>
+  <div class="crow"><span class="cflag">🇧🇷</span><span class="cname">Brazil</span><span class="ccode">BRA</span></div>
+  <div class="crow"><span class="cflag">🇨🇱</span><span class="cname">Chile</span><span class="ccode">CHI</span></div>
+  <div class="crow"><span class="cflag">🇨🇴</span><span class="cname">Colombia</span><span class="ccode">COL</span></div>
+  <div class="crow"><span class="cflag">🇪🇨</span><span class="cname">Ecuador</span><span class="ccode">ECU</span></div>
+  <div class="crow"><span class="cflag">🇵🇾</span><span class="cname">Paraguay</span><span class="ccode">PAR</span></div>
+  <div class="crow"><span class="cflag">🇵🇪</span><span class="cname">Peru</span><span class="ccode">PER</span></div>
+  <div class="crow"><span class="cflag">🇺🇾</span><span class="cname">Uruguay</span><span class="ccode">URU</span></div>
+  <div class="crow"><span class="cflag">🇻🇪</span><span class="cname">Venezuela</span><span class="ccode">VEN</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">Asian Football Confederation<span class="cnt">46</span></h2>
+  <div class="comps"><span class="comp">AFC Asian Cup</span><span class="comp">AFC Champions League Elite</span><span class="comp">AFC Women's Champions League</span><span class="comp">ASEAN (AFF) Championship</span><span class="comp">ASEAN Club Championship</span><span class="comp">AFC Champions League Two</span><span class="comp">AFC Challenge League</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇦🇫</span><span class="cname">Afghanistan</span><span class="ccode">AFG</span></div>
+  <div class="crow"><span class="cflag">🇦🇺</span><span class="cname">Australia</span><span class="ccode">AUS</span></div>
+  <div class="crow"><span class="cflag">🇧🇭</span><span class="cname">Bahrain</span><span class="ccode">BHR</span></div>
+  <div class="crow"><span class="cflag">🇧🇩</span><span class="cname">Bangladesh</span><span class="ccode">BAN</span></div>
+  <div class="crow"><span class="cflag">🇧🇹</span><span class="cname">Bhutan</span><span class="ccode">BHU</span></div>
+  <div class="crow"><span class="cflag">🇧🇳</span><span class="cname">Brunei</span><span class="ccode">BRU</span></div>
+  <div class="crow"><span class="cflag">🇰🇭</span><span class="cname">Cambodia</span><span class="ccode">CAM</span></div>
+  <div class="crow"><span class="cflag">🇨🇳</span><span class="cname">China</span><span class="ccode">CHN</span></div>
+  <div class="crow"><span class="cflag">🇹🇱</span><span class="cname">East Timor</span><span class="ccode">TLS</span></div>
+  <div class="crow"><span class="cflag">🇬🇺</span><span class="cname">Guam</span><span class="ccode">GUM</span></div>
+  <div class="crow"><span class="cflag">🇭🇰</span><span class="cname">Hong Kong</span><span class="ccode">HKG</span></div>
+  <div class="crow"><span class="cflag">🇮🇳</span><span class="cname">India</span><span class="ccode">IND</span></div>
+  <div class="crow"><span class="cflag">🇮🇩</span><span class="cname">Indonesia</span><span class="ccode">IDN</span></div>
+  <div class="crow"><span class="cflag">🇮🇷</span><span class="cname">Iran</span><span class="ccode">IRN</span></div>
+  <div class="crow"><span class="cflag">🇮🇶</span><span class="cname">Iraq</span><span class="ccode">IRQ</span></div>
+  <div class="crow"><span class="cflag">🇯🇵</span><span class="cname">Japan</span><span class="ccode">JPN</span></div>
+  <div class="crow"><span class="cflag">🇯🇴</span><span class="cname">Jordan</span><span class="ccode">JOR</span></div>
+  <div class="crow"><span class="cflag">🇰🇼</span><span class="cname">Kuwait</span><span class="ccode">KUW</span></div>
+  <div class="crow"><span class="cflag">🇰🇬</span><span class="cname">Kyrgyzstan</span><span class="ccode">KGZ</span></div>
+  <div class="crow"><span class="cflag">🇱🇦</span><span class="cname">Laos</span><span class="ccode">LAO</span></div>
+  <div class="crow"><span class="cflag">🇱🇧</span><span class="cname">Lebanon</span><span class="ccode">LBN</span></div>
+  <div class="crow"><span class="cflag">🇲🇴</span><span class="cname">Macau</span><span class="ccode">MAC</span></div>
+  <div class="crow"><span class="cflag">🇲🇾</span><span class="cname">Malaysia</span><span class="ccode">MAS</span></div>
+  <div class="crow"><span class="cflag">🇲🇻</span><span class="cname">Maldives</span><span class="ccode">MDV</span></div>
+  <div class="crow"><span class="cflag">🇲🇳</span><span class="cname">Mongolia</span><span class="ccode">MNG</span></div>
+  <div class="crow"><span class="cflag">🇲🇲</span><span class="cname">Myanmar</span><span class="ccode">MYA</span></div>
+  <div class="crow"><span class="cflag">🇳🇵</span><span class="cname">Nepal</span><span class="ccode">NEP</span></div>
+  <div class="crow"><span class="cflag">🇰🇵</span><span class="cname">North Korea</span><span class="ccode">PRK</span></div>
+  <div class="crow"><span class="cflag">🇴🇲</span><span class="cname">Oman</span><span class="ccode">OMA</span></div>
+  <div class="crow"><span class="cflag">🇵🇰</span><span class="cname">Pakistan</span><span class="ccode">PAK</span></div>
+  <div class="crow"><span class="cflag">🇵🇸</span><span class="cname">Palestine</span><span class="ccode">PLE</span></div>
+  <div class="crow"><span class="cflag">🇵🇭</span><span class="cname">Philippines</span><span class="ccode">PHI</span></div>
+  <div class="crow"><span class="cflag">🇶🇦</span><span class="cname">Qatar</span><span class="ccode">QAT</span></div>
+  <div class="crow"><span class="cflag">🇸🇦</span><span class="cname">Saudi Arabia</span><span class="ccode">KSA</span></div>
+  <div class="crow"><span class="cflag">🇸🇬</span><span class="cname">Singapore</span><span class="ccode">SGP</span></div>
+  <div class="crow"><span class="cflag">🇰🇷</span><span class="cname">South Korea</span><span class="ccode">KOR</span></div>
+  <div class="crow"><span class="cflag">🇱🇰</span><span class="cname">Sri Lanka</span><span class="ccode">SRI</span></div>
+  <div class="crow"><span class="cflag">🇸🇾</span><span class="cname">Syria</span><span class="ccode">SYR</span></div>
+  <div class="crow"><span class="cflag">🇹🇼</span><span class="cname">Taiwan</span><span class="ccode">TPE</span></div>
+  <div class="crow"><span class="cflag">🇹🇯</span><span class="cname">Tajikistan</span><span class="ccode">TJK</span></div>
+  <div class="crow"><span class="cflag">🇹🇭</span><span class="cname">Thailand</span><span class="ccode">THA</span></div>
+  <div class="crow"><span class="cflag">🇹🇲</span><span class="cname">Turkmenistan</span><span class="ccode">TKM</span></div>
+  <div class="crow"><span class="cflag">🇦🇪</span><span class="cname">United Arab Emirates</span><span class="ccode">UAE</span></div>
+  <div class="crow"><span class="cflag">🇺🇿</span><span class="cname">Uzbekistan</span><span class="ccode">UZB</span></div>
+  <div class="crow"><span class="cflag">🇻🇳</span><span class="cname">Vietnam</span><span class="ccode">VIE</span></div>
+  <div class="crow"><span class="cflag">🇾🇪</span><span class="cname">Yemen</span><span class="ccode">YEM</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">Union of European Football Associations<span class="cnt">55</span></h2>
+  <div class="comps"><span class="comp">UEFA Champions League</span><span class="comp">UEFA European Championship</span><span class="comp">UEFA Nations League</span><span class="comp">UEFA Europa League</span><span class="comp">UEFA Conference League</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇦🇱</span><span class="cname">Albania</span><span class="ccode">ALB</span></div>
+  <div class="crow"><span class="cflag">🇦🇩</span><span class="cname">Andorra</span><span class="ccode">AND</span></div>
+  <div class="crow"><span class="cflag">🇦🇲</span><span class="cname">Armenia</span><span class="ccode">ARM</span></div>
+  <div class="crow"><span class="cflag">🇦🇹</span><span class="cname">Austria</span><span class="ccode">AUT</span></div>
+  <div class="crow"><span class="cflag">🇦🇿</span><span class="cname">Azerbaijan</span><span class="ccode">AZE</span></div>
+  <div class="crow"><span class="cflag">🇧🇾</span><span class="cname">Belarus</span><span class="ccode">BLR</span></div>
+  <div class="crow"><span class="cflag">🇧🇪</span><span class="cname">Belgium</span><span class="ccode">BEL</span></div>
+  <div class="crow"><span class="cflag">🇧🇦</span><span class="cname">Bosnia and Herzegovina</span><span class="ccode">BIH</span></div>
+  <div class="crow"><span class="cflag">🇧🇬</span><span class="cname">Bulgaria</span><span class="ccode">BUL</span></div>
+  <div class="crow"><span class="cflag">🇭🇷</span><span class="cname">Croatia</span><span class="ccode">CRO</span></div>
+  <div class="crow"><span class="cflag">🇨🇾</span><span class="cname">Cyprus</span><span class="ccode">CYP</span></div>
+  <div class="crow"><span class="cflag">🇨🇿</span><span class="cname">Czechia</span><span class="ccode">CZE</span></div>
+  <div class="crow"><span class="cflag">🇩🇰</span><span class="cname">Denmark</span><span class="ccode">DEN</span></div>
+  <div class="crow"><span class="cflag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="cname">England</span><span class="ccode">ENG</span></div>
+  <div class="crow"><span class="cflag">🇪🇪</span><span class="cname">Estonia</span><span class="ccode">EST</span></div>
+  <div class="crow"><span class="cflag">🇫🇴</span><span class="cname">Faroe Islands</span><span class="ccode">FRO</span></div>
+  <div class="crow"><span class="cflag">🇫🇮</span><span class="cname">Finland</span><span class="ccode">FIN</span></div>
+  <div class="crow"><span class="cflag">🇫🇷</span><span class="cname">France</span><span class="ccode">FRA</span></div>
+  <div class="crow"><span class="cflag">🇬🇪</span><span class="cname">Georgia</span><span class="ccode">GEO</span></div>
+  <div class="crow"><span class="cflag">🇩🇪</span><span class="cname">Germany</span><span class="ccode">GER</span></div>
+  <div class="crow"><span class="cflag">🇬🇮</span><span class="cname">Gibraltar</span><span class="ccode">GIB</span></div>
+  <div class="crow"><span class="cflag">🇬🇷</span><span class="cname">Greece</span><span class="ccode">GRE</span></div>
+  <div class="crow"><span class="cflag">🇭🇺</span><span class="cname">Hungary</span><span class="ccode">HUN</span></div>
+  <div class="crow"><span class="cflag">🇮🇸</span><span class="cname">Iceland</span><span class="ccode">ISL</span></div>
+  <div class="crow"><span class="cflag">🇮🇪</span><span class="cname">Ireland</span><span class="ccode">IRL</span></div>
+  <div class="crow"><span class="cflag">🇮🇱</span><span class="cname">Israel</span><span class="ccode">ISR</span></div>
+  <div class="crow"><span class="cflag">🇮🇹</span><span class="cname">Italy</span><span class="ccode">ITA</span></div>
+  <div class="crow"><span class="cflag">🇰🇿</span><span class="cname">Kazakhstan</span><span class="ccode">KAZ</span></div>
+  <div class="crow"><span class="cflag">🇽🇰</span><span class="cname">Kosovo</span><span class="ccode">KOS</span></div>
+  <div class="crow"><span class="cflag">🇱🇻</span><span class="cname">Latvia</span><span class="ccode">LVA</span></div>
+  <div class="crow"><span class="cflag">🇱🇮</span><span class="cname">Liechtenstein</span><span class="ccode">LIE</span></div>
+  <div class="crow"><span class="cflag">🇱🇹</span><span class="cname">Lithuania</span><span class="ccode">LTU</span></div>
+  <div class="crow"><span class="cflag">🇱🇺</span><span class="cname">Luxembourg</span><span class="ccode">LUX</span></div>
+  <div class="crow"><span class="cflag">🇲🇹</span><span class="cname">Malta</span><span class="ccode">MLT</span></div>
+  <div class="crow"><span class="cflag">🇲🇩</span><span class="cname">Moldova</span><span class="ccode">MDA</span></div>
+  <div class="crow"><span class="cflag">🇲🇪</span><span class="cname">Montenegro</span><span class="ccode">MNE</span></div>
+  <div class="crow"><span class="cflag">🇳🇱</span><span class="cname">Netherlands</span><span class="ccode">NED</span></div>
+  <div class="crow"><span class="cflag">🏴󠁧󠁢󠁮󠁩󠁲󠁿</span><span class="cname">Northern Ireland</span><span class="ccode">NIR</span></div>
+  <div class="crow"><span class="cflag">🇲🇰</span><span class="cname">North Macedonia</span><span class="ccode">MKD</span></div>
+  <div class="crow"><span class="cflag">🇳🇴</span><span class="cname">Norway</span><span class="ccode">NOR</span></div>
+  <div class="crow"><span class="cflag">🇵🇱</span><span class="cname">Poland</span><span class="ccode">POL</span></div>
+  <div class="crow"><span class="cflag">🇵🇹</span><span class="cname">Portugal</span><span class="ccode">POR</span></div>
+  <div class="crow"><span class="cflag">🇷🇴</span><span class="cname">Romania</span><span class="ccode">ROU</span></div>
+  <div class="crow"><span class="cflag">🇷🇺</span><span class="cname">Russia</span><span class="ccode">RUS</span></div>
+  <div class="crow"><span class="cflag">🇸🇲</span><span class="cname">San Marino</span><span class="ccode">SMR</span></div>
+  <div class="crow"><span class="cflag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="cname">Scotland</span><span class="ccode">SCO</span></div>
+  <div class="crow"><span class="cflag">🇷🇸</span><span class="cname">Serbia</span><span class="ccode">SRB</span></div>
+  <div class="crow"><span class="cflag">🇸🇰</span><span class="cname">Slovakia</span><span class="ccode">SVK</span></div>
+  <div class="crow"><span class="cflag">🇸🇮</span><span class="cname">Slovenia</span><span class="ccode">SVN</span></div>
+  <div class="crow"><span class="cflag">🇪🇸</span><span class="cname">Spain</span><span class="ccode">ESP</span></div>
+  <div class="crow"><span class="cflag">🇸🇪</span><span class="cname">Sweden</span><span class="ccode">SWE</span></div>
+  <div class="crow"><span class="cflag">🇨🇭</span><span class="cname">Switzerland</span><span class="ccode">SUI</span></div>
+  <div class="crow"><span class="cflag">🇹🇷</span><span class="cname">Turkey</span><span class="ccode">TUR</span></div>
+  <div class="crow"><span class="cflag">🇺🇦</span><span class="cname">Ukraine</span><span class="ccode">UKR</span></div>
+  <div class="crow"><span class="cflag">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span><span class="cname">Wales</span><span class="ccode">WAL</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">Confédération Africaine de Football<span class="cnt">54</span></h2>
+  <div class="comps"><span class="comp">CAF Africa Cup of Nations</span><span class="comp">CAF African Nations Championship</span><span class="comp">CAF Champions League</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇩🇿</span><span class="cname">Algeria</span><span class="ccode">ALG</span></div>
+  <div class="crow"><span class="cflag">🇦🇴</span><span class="cname">Angola</span><span class="ccode">ANG</span></div>
+  <div class="crow"><span class="cflag">🇧🇯</span><span class="cname">Benin</span><span class="ccode">BEN</span></div>
+  <div class="crow"><span class="cflag">🇧🇼</span><span class="cname">Botswana</span><span class="ccode">BOT</span></div>
+  <div class="crow"><span class="cflag">🇧🇫</span><span class="cname">Burkina Faso</span><span class="ccode">BUR</span></div>
+  <div class="crow"><span class="cflag">🇧🇮</span><span class="cname">Burundi</span><span class="ccode">BDI</span></div>
+  <div class="crow"><span class="cflag">🇨🇲</span><span class="cname">Cameroon</span><span class="ccode">CMR</span></div>
+  <div class="crow"><span class="cflag">🇨🇻</span><span class="cname">Cape Verde</span><span class="ccode">CPV</span></div>
+  <div class="crow"><span class="cflag">🇨🇫</span><span class="cname">Central African Republic</span><span class="ccode">CAF</span></div>
+  <div class="crow"><span class="cflag">🇹🇩</span><span class="cname">Chad</span><span class="ccode">CHA</span></div>
+  <div class="crow"><span class="cflag">🇰🇲</span><span class="cname">Comoros</span><span class="ccode">COM</span></div>
+  <div class="crow"><span class="cflag">🇩🇯</span><span class="cname">Djibouti</span><span class="ccode">DJI</span></div>
+  <div class="crow"><span class="cflag">🇨🇩</span><span class="cname">DR Congo</span><span class="ccode">COD</span></div>
+  <div class="crow"><span class="cflag">🇪🇬</span><span class="cname">Egypt</span><span class="ccode">EGY</span></div>
+  <div class="crow"><span class="cflag">🇬🇶</span><span class="cname">Equatorial Guinea</span><span class="ccode">EQG</span></div>
+  <div class="crow"><span class="cflag">🇪🇷</span><span class="cname">Eritrea</span><span class="ccode">ERI</span></div>
+  <div class="crow"><span class="cflag">🇸🇿</span><span class="cname">Eswatini</span><span class="ccode">SWZ</span></div>
+  <div class="crow"><span class="cflag">🇪🇹</span><span class="cname">Ethiopia</span><span class="ccode">ETH</span></div>
+  <div class="crow"><span class="cflag">🇬🇦</span><span class="cname">Gabon</span><span class="ccode">GAB</span></div>
+  <div class="crow"><span class="cflag">🇬🇲</span><span class="cname">Gambia</span><span class="ccode">GAM</span></div>
+  <div class="crow"><span class="cflag">🇬🇭</span><span class="cname">Ghana</span><span class="ccode">GHA</span></div>
+  <div class="crow"><span class="cflag">🇬🇳</span><span class="cname">Guinea</span><span class="ccode">GUI</span></div>
+  <div class="crow"><span class="cflag">🇬🇼</span><span class="cname">Guinea-Bissau</span><span class="ccode">GNB</span></div>
+  <div class="crow"><span class="cflag">🇨🇮</span><span class="cname">Ivory Coast</span><span class="ccode">CIV</span></div>
+  <div class="crow"><span class="cflag">🇰🇪</span><span class="cname">Kenya</span><span class="ccode">KEN</span></div>
+  <div class="crow"><span class="cflag">🇱🇸</span><span class="cname">Lesotho</span><span class="ccode">LES</span></div>
+  <div class="crow"><span class="cflag">🇱🇷</span><span class="cname">Liberia</span><span class="ccode">LBR</span></div>
+  <div class="crow"><span class="cflag">🇱🇾</span><span class="cname">Libya</span><span class="ccode">LBY</span></div>
+  <div class="crow"><span class="cflag">🇲🇬</span><span class="cname">Madagascar</span><span class="ccode">MAD</span></div>
+  <div class="crow"><span class="cflag">🇲🇼</span><span class="cname">Malawi</span><span class="ccode">MWI</span></div>
+  <div class="crow"><span class="cflag">🇲🇱</span><span class="cname">Mali</span><span class="ccode">MLI</span></div>
+  <div class="crow"><span class="cflag">🇲🇷</span><span class="cname">Mauritania</span><span class="ccode">MTN</span></div>
+  <div class="crow"><span class="cflag">🇲🇺</span><span class="cname">Mauritius</span><span class="ccode">MRI</span></div>
+  <div class="crow"><span class="cflag">🇲🇦</span><span class="cname">Morocco</span><span class="ccode">MAR</span></div>
+  <div class="crow"><span class="cflag">🇲🇿</span><span class="cname">Mozambique</span><span class="ccode">MOZ</span></div>
+  <div class="crow"><span class="cflag">🇳🇦</span><span class="cname">Namibia</span><span class="ccode">NAM</span></div>
+  <div class="crow"><span class="cflag">🇳🇪</span><span class="cname">Niger</span><span class="ccode">NIG</span></div>
+  <div class="crow"><span class="cflag">🇳🇬</span><span class="cname">Nigeria</span><span class="ccode">NGA</span></div>
+  <div class="crow"><span class="cflag">🇨🇬</span><span class="cname">Republic of the Congo</span><span class="ccode">CGO</span></div>
+  <div class="crow"><span class="cflag">🇷🇼</span><span class="cname">Rwanda</span><span class="ccode">RWA</span></div>
+  <div class="crow"><span class="cflag">🇸🇹</span><span class="cname">São Tomé and Príncipe</span><span class="ccode">STP</span></div>
+  <div class="crow"><span class="cflag">🇸🇳</span><span class="cname">Senegal</span><span class="ccode">SEN</span></div>
+  <div class="crow"><span class="cflag">🇸🇨</span><span class="cname">Seychelles</span><span class="ccode">SEY</span></div>
+  <div class="crow"><span class="cflag">🇸🇱</span><span class="cname">Sierra Leone</span><span class="ccode">SLE</span></div>
+  <div class="crow"><span class="cflag">🇸🇴</span><span class="cname">Somalia</span><span class="ccode">SOM</span></div>
+  <div class="crow"><span class="cflag">🇿🇦</span><span class="cname">South Africa</span><span class="ccode">RSA</span></div>
+  <div class="crow"><span class="cflag">🇸🇸</span><span class="cname">South Sudan</span><span class="ccode">SSD</span></div>
+  <div class="crow"><span class="cflag">🇸🇩</span><span class="cname">Sudan</span><span class="ccode">SUD</span></div>
+  <div class="crow"><span class="cflag">🇹🇿</span><span class="cname">Tanzania</span><span class="ccode">TAN</span></div>
+  <div class="crow"><span class="cflag">🇹🇬</span><span class="cname">Togo</span><span class="ccode">TOG</span></div>
+  <div class="crow"><span class="cflag">🇹🇳</span><span class="cname">Tunisia</span><span class="ccode">TUN</span></div>
+  <div class="crow"><span class="cflag">🇺🇬</span><span class="cname">Uganda</span><span class="ccode">UGA</span></div>
+  <div class="crow"><span class="cflag">🇿🇲</span><span class="cname">Zambia</span><span class="ccode">ZAM</span></div>
+  <div class="crow"><span class="cflag">🇿🇼</span><span class="cname">Zimbabwe</span><span class="ccode">ZIM</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">Confederation of North, Central American and Caribbean Association Football<span class="cnt">43</span></h2>
+  <div class="comps"><span class="comp">CONCACAF Nations League</span><span class="comp">CONCACAF Champions Cup</span><span class="comp">CONCACAF W Champions Cup</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇦🇮</span><span class="cname">Anguilla</span><span class="ccode">AIA</span></div>
+  <div class="crow"><span class="cflag">🇦🇬</span><span class="cname">Antigua and Barbuda</span><span class="ccode">ATG</span></div>
+  <div class="crow"><span class="cflag">🇦🇼</span><span class="cname">Aruba</span><span class="ccode">ARU</span></div>
+  <div class="crow"><span class="cflag">🇧🇸</span><span class="cname">Bahamas</span><span class="ccode">BAH</span></div>
+  <div class="crow"><span class="cflag">🇧🇧</span><span class="cname">Barbados</span><span class="ccode">BRB</span></div>
+  <div class="crow"><span class="cflag">🇧🇿</span><span class="cname">Belize</span><span class="ccode">BLZ</span></div>
+  <div class="crow"><span class="cflag">🇧🇲</span><span class="cname">Bermuda</span><span class="ccode">BER</span></div>
+  <div class="crow"><span class="cflag">🇧🇶</span><span class="cname">Bonaire</span><span class="ccode">BOE</span></div>
+  <div class="crow"><span class="cflag">🇻🇬</span><span class="cname">British Virgin Islands</span><span class="ccode">VGB</span></div>
+  <div class="crow"><span class="cflag">🇨🇦</span><span class="cname">Canada</span><span class="ccode">CAN</span></div>
+  <div class="crow"><span class="cflag">🇧🇶</span><span class="cname">Caribbean Netherlands</span><span class="ccode">BES</span></div>
+  <div class="crow"><span class="cflag">🇰🇾</span><span class="cname">Cayman Islands</span><span class="ccode">CAY</span></div>
+  <div class="crow"><span class="cflag">🇨🇷</span><span class="cname">Costa Rica</span><span class="ccode">CRC</span></div>
+  <div class="crow"><span class="cflag">🇨🇺</span><span class="cname">Cuba</span><span class="ccode">CUB</span></div>
+  <div class="crow"><span class="cflag">🇨🇼</span><span class="cname">Curaçao</span><span class="ccode">CUW</span></div>
+  <div class="crow"><span class="cflag">🇩🇲</span><span class="cname">Dominica</span><span class="ccode">DMA</span></div>
+  <div class="crow"><span class="cflag">🇩🇴</span><span class="cname">Dominican Republic</span><span class="ccode">DOM</span></div>
+  <div class="crow"><span class="cflag">🇸🇻</span><span class="cname">El Salvador</span><span class="ccode">SLV</span></div>
+  <div class="crow"><span class="cflag">🇬🇫</span><span class="cname">French Guiana</span><span class="ccode">GUF</span></div>
+  <div class="crow"><span class="cflag">🇬🇩</span><span class="cname">Grenada</span><span class="ccode">GRN</span></div>
+  <div class="crow"><span class="cflag">🇬🇵</span><span class="cname">Guadeloupe</span><span class="ccode">GLP</span></div>
+  <div class="crow"><span class="cflag">🇬🇹</span><span class="cname">Guatemala</span><span class="ccode">GUA</span></div>
+  <div class="crow"><span class="cflag">🇬🇾</span><span class="cname">Guyana</span><span class="ccode">GUY</span></div>
+  <div class="crow"><span class="cflag">🇭🇹</span><span class="cname">Haiti</span><span class="ccode">HAI</span></div>
+  <div class="crow"><span class="cflag">🇭🇳</span><span class="cname">Honduras</span><span class="ccode">HON</span></div>
+  <div class="crow"><span class="cflag">🇯🇲</span><span class="cname">Jamaica</span><span class="ccode">JAM</span></div>
+  <div class="crow"><span class="cflag">🇲🇶</span><span class="cname">Martinique</span><span class="ccode">MTQ</span></div>
+  <div class="crow"><span class="cflag">🇲🇽</span><span class="cname">Mexico</span><span class="ccode">MEX</span></div>
+  <div class="crow"><span class="cflag">🇲🇸</span><span class="cname">Montserrat</span><span class="ccode">MSR</span></div>
+  <div class="crow"><span class="cflag">🇳🇮</span><span class="cname">Nicaragua</span><span class="ccode">NCA</span></div>
+  <div class="crow"><span class="cflag">🇵🇦</span><span class="cname">Panama</span><span class="ccode">PAN</span></div>
+  <div class="crow"><span class="cflag">🇵🇷</span><span class="cname">Puerto Rico</span><span class="ccode">PUR</span></div>
+  <div class="crow"><span class="cflag">🇧🇱</span><span class="cname">Saint Barthélemy</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇰🇳</span><span class="cname">Saint Kitts and Nevis</span><span class="ccode">SKN</span></div>
+  <div class="crow"><span class="cflag">🇱🇨</span><span class="cname">Saint Lucia</span><span class="ccode">LCA</span></div>
+  <div class="crow"><span class="cflag">🇲🇫</span><span class="cname">Saint Martin</span><span class="ccode">SMN</span></div>
+  <div class="crow"><span class="cflag">🇻🇨</span><span class="cname">Saint Vincent and the Grenadines</span><span class="ccode">VIN</span></div>
+  <div class="crow"><span class="cflag">🇸🇽</span><span class="cname">Sint Maarten</span><span class="ccode">SXM</span></div>
+  <div class="crow"><span class="cflag">🇸🇷</span><span class="cname">Suriname</span><span class="ccode">SUR</span></div>
+  <div class="crow"><span class="cflag">🇹🇹</span><span class="cname">Trinidad and Tobago</span><span class="ccode">TRI</span></div>
+  <div class="crow"><span class="cflag">🇹🇨</span><span class="cname">Turks and Caicos Islands</span><span class="ccode">TCA</span></div>
+  <div class="crow"><span class="cflag">🇺🇸</span><span class="cname">United States</span><span class="ccode">USA</span></div>
+  <div class="crow"><span class="cflag">🇻🇮</span><span class="cname">United States Virgin Islands</span><span class="ccode">ISV</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">Oceania Football Confederation<span class="cnt">14</span></h2>
+  <div class="comps"><span class="comp">OFC Champions League</span><span class="comp">OFC Nations Cup</span></div>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇦🇸</span><span class="cname">American Samoa</span><span class="ccode">ASA</span></div>
+  <div class="crow"><span class="cflag">🇨🇰</span><span class="cname">Cook Islands</span><span class="ccode">COK</span></div>
+  <div class="crow"><span class="cflag">🇫🇯</span><span class="cname">Fiji</span><span class="ccode">FIJ</span></div>
+  <div class="crow"><span class="cflag">🇵🇫</span><span class="cname">French Polynesia</span><span class="ccode">TAH</span></div>
+  <div class="crow"><span class="cflag">🇰🇮</span><span class="cname">Kiribati</span><span class="ccode">KIR</span></div>
+  <div class="crow"><span class="cflag">🇳🇨</span><span class="cname">New Caledonia</span><span class="ccode">NCL</span></div>
+  <div class="crow"><span class="cflag">🇳🇿</span><span class="cname">New Zealand</span><span class="ccode">NZL</span></div>
+  <div class="crow"><span class="cflag">🇵🇬</span><span class="cname">Papua New Guinea</span><span class="ccode">PNG</span></div>
+  <div class="crow"><span class="cflag">🇼🇸</span><span class="cname">Samoa</span><span class="ccode">SAM</span></div>
+  <div class="crow"><span class="cflag">🇸🇧</span><span class="cname">Solomon Islands</span><span class="ccode">SOL</span></div>
+  <div class="crow"><span class="cflag">🇹🇴</span><span class="cname">Tonga</span><span class="ccode">TGA</span></div>
+  <div class="crow"><span class="cflag">🇹🇻</span><span class="cname">Tuvalu</span><span class="ccode">TUV</span></div>
+  <div class="crow"><span class="cflag">🇻🇺</span><span class="cname">Vanuatu</span><span class="ccode">VAN</span></div>
+  <div class="crow"><span class="cflag">🇼🇫</span><span class="cname">Wallis and Futuna</span><span class="ccode">WAL</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">The Confederation of Independent Football Associations<span class="cnt">10</span></h2>
+  <p class="fnote">Не члены ФИФА — трёхбуквенных кодов ФИФА нет.</p>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">Abkhazia</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇦🇽</span><span class="cname">Åland Islands</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇮🇴</span><span class="cname">British Indian Ocean Territory</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇬🇱</span><span class="cname">Greenland</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">Kurdistan Region</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇲🇨</span><span class="cname">Monaco</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">Northern Cyprus</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">Somaliland</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">South Ossetia</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🏳️</span><span class="cname">Transnistria</span><span class="ccode nocode">—</span></div>
+  </div></section>
+  <section class="fed-sec">
+  <h2 class="fed">World Unity Football Alliance<span class="cnt">2</span></h2>
+  <p class="fnote">Не члены ФИФА — трёхбуквенных кодов ФИФА нет.</p>
+  <div class="cgrid">
+  <div class="crow"><span class="cflag">🇯🇪</span><span class="cname">Jersey</span><span class="ccode nocode">—</span></div>
+  <div class="crow"><span class="cflag">🇪🇭</span><span class="cname">Western Sahara</span><span class="ccode nocode">—</span></div>
+  </div></section>
+</div>
+</body>
+</html>

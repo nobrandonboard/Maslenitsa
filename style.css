@@ -104,3 +104,28 @@ main{max-width:900px;margin:0 auto 60px;padding:0 16px}
 .lcol a{display:block;width:26px;height:26px}
 .lcol svg,.lcol .soc-img{display:block;width:26px;height:26px;transition:transform .15s}
 .lcol a:hover svg,.lcol a:hover .soc-img{transform:scale(1.15)}
+
+/* ---- кликабельное название стадиона + баннер фильтра ---- */
+.name-link{cursor:pointer;transition:color .15s}
+.name-link:hover{color:var(--amber)}
+.stbanner{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--amber);border-radius:8px;padding:8px 12px;margin:0 0 10px;font-size:13px}
+.stbanner .stb-name{font-weight:700;color:var(--amber)}
+.stbanner .stb-cnt{color:var(--muted)}
+.stbanner .stclear{
+  margin-left:auto;background:transparent;border:1px solid #3a3a3e;color:var(--muted);
+  border-radius:6px;padding:4px 12px;cursor:pointer;font-size:12px;
+  white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s;
+}
+.stbanner .stclear:hover{background:var(--amber);color:#151515;border-color:var(--amber);font-weight:600}
+
+/* ---- кликабельная метка-кнопка "новый стадион №" ---- */
+.badge-link,.badge-m{cursor:pointer;user-select:none;transition:background-color .15s,color .15s,box-shadow .15s,transform .15s}
+.badge-link:hover,.badge-m:hover{background:#c77b3a;color:#151515;border-color:#c77b3a;box-shadow:0 0 10px rgba(199,123,58,.55);transform:translateY(-1px)}
+.badge-link:active,.badge-m:active{transform:none}
+
+/* ---- подсветка карточки матча / строки стадиона при переходе по метке ---- */
+@keyframes flashPulse{0%,55%{background-color:rgba(255,176,32,.28)}100%{background-color:var(--card)}}
+.card.flash,.row.flash{animation:flashPulse 2.2s ease}
+/* ---- кликабельная карточка "2 стран" ---- */
+.st-click{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.st-click:hover{border-color:var(--amber);box-shadow:0 0 10px rgba(255,176,32,.25)}

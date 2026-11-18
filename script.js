@@ -147,7 +147,7 @@ const STADIUM_NUM={
   "Stadion Shakhter":17,
   "Phetchaburi Rajabhat University Stadium":18
 };
-const FIRST_VISIT={};
+const FIRST_VISIT={"Tsentralnyi Stadion": "2011-07-17","Manezh Futbol-Arena Yenisey": "2017-09-21","Stadion Luzhniki": "2018-07-01","Gazprom Arena": "2018-07-03","Lukoil Arena": "2019-11-13","RZD Arena": "2021-04-17","VTB Arena": "2021-04-24","Stadion Trud": "2022-04-02","Stadion Luch": "2022-05-11","Arena Sokol": "2022-05-12","Stadion Spartakovets im. Starostina": "2022-05-12","Surakul Stadium": "2022-10-01","Hua Hin Municipal Stadium": "2023-01-15","PAT Stadium": "2023-02-03","BG Stadium": "2023-02-04","Stadion Geolog": "2024-10-26","Stadion Shakhter": "2025-07-27","Phetchaburi Rajabhat University Stadium": "2026-10-31"};
 for(const m of MATCHES){if(!(m.st in FIRST_VISIT)||m.d<FIRST_VISIT[m.st])FIRST_VISIT[m.st]=m.d;}
 function badgeText(n){
   if(lang==="ru")return"новый стадион №"+n;
@@ -160,15 +160,15 @@ const I18N={
   ru:{slogan:"Ишь ты, Масленица! / граундхоппер из Сибири",locale:"ru-RU",
       tabs:{matches:"Матчи",clubs:"Клубы",stadiums:"Стадионы",countries:"Страны",cities:"Города"},
       stats:{matches:"матчей",countries:"стран",stadiums:"стадионов",cities:"городов",clubs:"клубов"},
-      new:"новый стадион",free:"бесплатно",all:"Все"},
+      new:"новый стадион",free:"бесплатно",all:"Все",stl:"Стадион:",ctl:"Страна:",clr:"✕ показать все"},
   en:{slogan:"Well, well — it's Maslenitsa! / groundhopper from Siberia",locale:"en-GB",
       tabs:{matches:"Matches",clubs:"Clubs",stadiums:"Stadiums",countries:"Countries",cities:"Cities"},
       stats:{matches:"matches",countries:"countries",stadiums:"stadiums",cities:"cities",clubs:"clubs"},
-      new:"new stadium",free:"free entry",all:"All"},
+      new:"new stadium",free:"free entry",all:"All",stl:"Stadium:",ctl:"Country:",clr:"✕ show all"},
   zh:{slogan:"哟，是的 — 谢肉节到了！/ 来自西伯利亚的球场旅行者",locale:"zh-CN",
       tabs:{matches:"比赛",clubs:"俱乐部",stadiums:"体育场",countries:"国家",cities:"城市"},
       stats:{matches:"场",countries:"国家",stadiums:"体育场",cities:"城市",clubs:"俱乐部"},
-      new:"新体育场",free:"免费",all:"全部"}
+      new:"新体育场",free:"免费",all:"全部",stl:"体育场：",ctl:"国家：",clr:"✕ 显示全部"}
 };
 
 const COUNTRY={
@@ -232,6 +232,8 @@ function flag(c){
 let lang="ru";
 let tab="stadiums";
 let yearFilter="all";
+let stFilter=null;
+let countryFilter=null;
 function T(){return I18N[lang];}
 function countryName(c){const o=COUNTRY[c];return o?o[lang]:c;}
 function roundText(r){
@@ -277,29 +279,65 @@ function renderMatches(){
     +years.map(y=>'<button class="ychip'+(yearFilter===y?" on":"")+'" data-y="'+y+'">'+y+"</button>").join("")
     +"</div>";
   if(yearFilter!=="all")sorted=sorted.filter(m=>m.d.slice(0,4)===yearFilter);
-  let html=chips,year="";
+  if(stFilter)sorted=sorted.filter(m=>m.st===stFilter);
+  if(countryFilter)sorted=sorted.filter(m=>m.cc===countryFilter);
+  let html="";
+  if(stFilter||countryFilter){
+    const name=stFilter?stFilter:countryName(countryFilter);
+    const label=stFilter?t.stl:t.ctl;
+    html='<div class="stbanner"><span><b>'+label+'</b> <span class="stb-name">'+name+'</span> · <span class="stb-cnt">'+sorted.length+'</span></span><button class="stclear">'+t.clr+"</button></div>";
+  }
+  html+=chips;
+  let year="";
   for(const m of sorted){
     const y=m.d.slice(0,4);
     if(yearFilter==="all"&&y!==year){year=y;html+='<h2 class="year">'+y+"</h2>";}
     const num=STADIUM_NUM[m.st];
     const show=num&&FIRST_VISIT[m.st]===m.d;
-    html+='<div class="card">'
+    html+='<div class="card" id="mcard-'+MATCHES.indexOf(m)+'">'
       +'<div class="c-top"><span class="date">'+fmtDate(m.d)+'</span><span class="comp">'+compText(m)+"</span></div>"
       +'<div class="c-teams"><div class="team">'+flag(m.hc)+"<span>"+m.h+"</span></div>"
       +'<div class="score">'+m.sc+"</div>"
       +'<div class="team"><span>'+m.a+"</span>"+flag(m.ac)+"</div></div>"
       +'<div class="c-foot"><span class="venue">'+m.st+" · "+m.ct+'</span><span class="chips">'
-      +(show?'<span class="badge">'+badgeText(num)+"</span>":"")+chipsHTML(m)+"</span></div>"
+      +(show?'<span class="badge badge-m" data-st="'+m.st+'">'+badgeText(num)+"</span>":"")+chipsHTML(m)+"</span></div>"
       +"</div>";
   }
   content(html);
 }
 
-function listHTML(items){
+function gotoStadiumDebut(st){
+  const idx=MATCHES.findIndex(m=>m.st===st&&m.d===FIRST_VISIT[st]);
+  if(idx<0)return;
+  const y=MATCHES[idx].d.slice(0,4);
+  if(yearFilter!=="all"&&yearFilter!==y)yearFilter="all";
+  stFilter=null;countryFilter=null;tab="matches";render();
+  const el=document.getElementById("mcard-"+idx);
+  if(el){
+    el.scrollIntoView({behavior:"smooth",block:"center"});
+    el.classList.add("flash");
+    setTimeout(()=>el.classList.remove("flash"),2200);
+  }
+}
+
+function gotoStadiumRow(st){
+  const num=STADIUM_NUM[st];if(!num)return;
+  tab="stadiums";render();
+  const el=document.getElementById("srow-"+num);
+  if(el){
+    el.scrollIntoView({behavior:"smooth",block:"center"});
+    el.classList.add("flash");
+    setTimeout(()=>el.classList.remove("flash"),2200);
+  }
+}
+
+function listHTML(items,link){
   const max=Math.max.apply(null,items.map(i=>i.count));
   return items.map(i=>
-    '<div class="row">'
-    +'<div class="row-head">'+flag(i.country)+'<span class="name">'+i.name+"</span></div>"
+    '<div class="row"'+(i.num?' id="srow-'+i.num+'"':'')+'>'
+    +'<div class="row-head">'+flag(i.country)
+    +(link==="cc"?'<span class="name name-link" data-ccf="'+i.country+'">'+i.name+"</span>":link?'<span class="name name-link" data-stf="'+i.name+'">'+i.name+"</span>":'<span class="name">'+i.name+"</span>")
+    +(i.num?'<span class="badge badge-link" data-st="'+i.name+'">'+badgeText(i.num)+"</span>":"")+"</div>"
     +(i.sub?'<div class="row-sub">'+i.sub+"</div>":"")
     +'<div class="row-bar"><div class="bar"><div class="fill" style="width:'+Math.round(i.count/max*100)+'%"></div></div>'
     +'<span class="cnt">'+i.count+"</span></div>"
@@ -310,11 +348,11 @@ function listHTML(items){
 function aggStadiums(){
   const map=new Map();
   for(const m of MATCHES){
-    if(!map.has(m.st))map.set(m.st,{name:m.st,count:0,country:m.cc,sub:""});
+    if(!map.has(m.st))map.set(m.st,{name:m.st,count:0,country:m.cc,sub:"",num:STADIUM_NUM[m.st],first:FIRST_VISIT[m.st]});
     const e=map.get(m.st);e.count++;
     if(!e.sub)e.sub=m.ct+" · "+countryName(m.cc);
   }
-  return[...map.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
+  return[...map.values()].sort((a,b)=>a.first.localeCompare(b.first)||a.name.localeCompare(b.name));
 }
 function aggClubs(){
   const map=new Map();
@@ -354,8 +392,8 @@ function render(){
   renderStats();
   if(tab==="matches")renderMatches();
   else if(tab==="clubs")content(listHTML(aggClubs()));
-  else if(tab==="stadiums")content(listHTML(aggStadiums()));
-  else if(tab==="countries")content(listHTML(aggCountries()));
+  else if(tab==="stadiums")content(listHTML(aggStadiums(),true));
+  else if(tab==="countries")content(listHTML(aggCountries(),"cc"));
   else content(listHTML(aggCities()));
 }
 
@@ -367,11 +405,12 @@ function renderStats(){
   const FIXED={stadiums:18,matches:101,countries:2,cities:11,clubs:82};
   const s=T();
   const card=(v,l)=>'<div class="st"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
+  const ccard=(v,l)=>'<div class="st st-click"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
   const linkCard=(v,l)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l)+"</a>";
   const order=["stadiums","matches","countries","cities","clubs"];
   document.getElementById("statgrid").innerHTML=order.map(k=>
     '<div class="col">'
-    +(k==="stadiums"?linkCard(FIXED[k],s.stats[k]):card(FIXED[k],s.stats[k]))
+    +(k==="stadiums"?linkCard(FIXED[k],s.stats[k]):k==="countries"?ccard(FIXED[k],s.stats[k]):card(FIXED[k],s.stats[k]))
     +'<button data-t="'+k+'"'+(tab===k?' class="on"':'')+'>'+s.tabs[k]+"</button>"
     +"</div>"
   ).join("");
@@ -398,7 +437,9 @@ function renderStats(){
 
 /* ============ СОБЫТИЯ ============ */
 document.getElementById("statgrid").addEventListener("click",e=>{
+  const c=e.target.closest(".st-click");if(c){tab="countries";render();return;}
   const b=e.target.closest("button[data-t]");if(!b)return;
+  if(b.dataset.t==="countries"){window.open("countries.html","_blank");return;}
   tab=b.dataset.t;render();
 });
 document.querySelector(".lang").addEventListener("click",e=>{
@@ -406,6 +447,15 @@ document.querySelector(".lang").addEventListener("click",e=>{
   lang=b.dataset.l;render();
 });
 document.getElementById("content").addEventListener("click",e=>{
+  const cc=e.target.closest("[data-ccf]");
+  if(cc){countryFilter=cc.dataset.ccf;stFilter=null;yearFilter="all";tab="matches";render();return;}
+  const n=e.target.closest(".name-link");
+  if(n){stFilter=n.dataset.stf;countryFilter=null;yearFilter="all";tab="matches";render();return;}
+  if(e.target.closest(".stclear")){stFilter=null;countryFilter=null;renderMatches();return;}
+  const s=e.target.closest(".badge-link");
+  if(s){gotoStadiumDebut(s.dataset.st);return;}
+  const m=e.target.closest(".badge-m");
+  if(m){gotoStadiumRow(m.dataset.st);return;}
   const b=e.target.closest(".ychip");if(!b)return;
   yearFilter=b.dataset.y;renderMatches();
 });
