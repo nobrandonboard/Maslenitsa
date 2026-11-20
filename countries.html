@@ -27,6 +27,11 @@ h1{color:var(--amber);font-size:30px;margin:6px 0 4px;letter-spacing:1px}
 .cname{font-size:14.5px;font-weight:600}
 .cname-link{cursor:pointer;transition:color .15s}
 .cname-link:hover{color:var(--amber)}
+/* ---- активные страны: кликабельные (ведут на матчи/стадионы) ---- */
+.crow.on{background:linear-gradient(90deg,var(--amber-soft),var(--card) 70%)}
+.crow.on .cname{color:var(--amber)}
+.crow.on .cname-link:hover{color:#c77b3a}
+.crow.on:hover{box-shadow:0 0 12px rgba(255,176,32,.25)}
 .ccode{margin-left:auto;font-size:12.5px;font-weight:700;letter-spacing:1px;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:2px 8px;flex:none}
 .ccode.nocode{color:var(--muted);background:var(--card2);font-weight:400}
 .cflag img{width:22px;height:15px;object-fit:contain;border-radius:2px;vertical-align:-2px}
@@ -407,6 +412,7 @@ h1{color:var(--amber);font-size:30px;margin:6px 0 4px;letter-spacing:1px}
   applyLang('ru');
 
   document.querySelectorAll('.cname-link').forEach(function(el){
+    var row=el.closest('.crow'); if(row) row.classList.add('on');
     el.addEventListener('click', function(){
       location.href='index.html?tab=stadiums&cc='+el.dataset.cc;
     });
