@@ -414,16 +414,21 @@ h1{color:var(--amber);font-size:30px;margin:6px 0 4px;letter-spacing:1px}
   document.querySelectorAll('.cname-link').forEach(function(el){
     var row=el.closest('.crow'); if(row) row.classList.add('on');
     el.addEventListener('click', function(){
-      location.href='index.html?tab=stadiums&cc='+el.dataset.cc;
+      var url='index.html?tab=stadiums&cc='+el.dataset.cc;
+      if(window.parent!==window){ window.parent.postMessage({fp:'goto',url:url},'*'); }
+      else{ location.href=url; }
     });
   });
 
   var back = document.getElementById('backBtn');
   if(back){
     back.addEventListener('click', function(e){
+      e.preventDefault();
+      if(window.parent!==window){ window.parent.postMessage('fp:countries-close','*'); return; }
       try{
-        if(window.opener && !window.opener.closed){ e.preventDefault(); window.opener.focus(); window.close(); }
+        if(window.opener && !window.opener.closed){ window.opener.focus(); window.close(); return; }
       }catch(err){}
+      location.href='Fake Pancake.html';
     });
   }
 

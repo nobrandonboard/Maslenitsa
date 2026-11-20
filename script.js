@@ -1,5 +1,102 @@
 "use strict";
 
+
+/* ============ УНИВЕРСАЛЬНЫЕ МОДУЛИ (работают на любой странице) ============ */
+/* Главная страница = та, где есть #statgrid */
+const IS_MAIN=!!document.getElementById("statgrid");
+const MAIN_URL="Fake Pancake.html";
+
+/* ---- оверлей страницы Страны: открывается в этой же вкладке ---- */
+let countriesOverlay=null;
+
+function openCountries(){
+  if(!countriesOverlay){
+    countriesOverlay=document.createElement("div");
+    countriesOverlay.id="countries-overlay";
+    countriesOverlay.innerHTML='<iframe id="countries-frame" src="countries.html" title="Страны"></iframe>';
+    document.body.appendChild(countriesOverlay);
+  }
+  countriesOverlay.classList.add("open");
+  document.body.classList.add("no-scroll");
+}
+
+function closeCountries(){
+  if(!countriesOverlay)return;
+  countriesOverlay.classList.remove("open");
+  document.body.classList.remove("no-scroll");
+}
+
+if(IS_MAIN){
+  /* сообщения со вложенных страниц (Страны и будущие): закрыть оверлей / перейти по ссылке */
+  window.addEventListener("message",e=>{
+    if(e.data==="fp:countries-close"){closeCountries();return;}
+    if(e.data&&e.data.fp==="goto"){closeCountries();location.href=e.data.url;}
+  });
+  window.addEventListener("keydown",e=>{
+    if(e.key==="Escape"&&countriesOverlay&&countriesOverlay.classList.contains("open"))closeCountries();
+  });
+}
+
+/* ---- универсальная кнопка «НАЗАД»: овал 108px со стрелкой влево ----
+   Появляется на любой неглавной странице автоматически, если у страницы
+   ещё нет своей кнопки. В оверлее закрывает его, отдельно — ведёт на главную. */
+(function(){
+  if(IS_MAIN)return;
+  let back=document.getElementById("backBtn")||document.querySelector("a.back,button.back");
+  if(back)return;
+  back=document.createElement("button");
+  back.className="back";
+  back.id="backBtn";
+  back.setAttribute("aria-label","Назад");
+  back.setAttribute("title","Назад");
+  back.innerHTML='<svg width="46" height="16" viewBox="0 0 48 16" aria-hidden="true"><path d="M46 8 H5 M13 2 L5 8 L13 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const h1=document.querySelector("header h1, .chead h1");
+  if(h1)h1.parentElement.insertBefore(back,h1);
+  else document.body.insertBefore(back,document.body.firstChild);
+  back.addEventListener("click",e=>{
+    e.preventDefault();
+    if(window.parent!==window){window.parent.postMessage("fp:countries-close","*");return;}
+    try{
+      if(window.opener&&!window.opener.closed){window.opener.focus();window.close();return;}
+    }catch(err){}
+    location.href=MAIN_URL;
+  });
+})();
+
+/* ---- универсальная кнопка «ВВЕРХ»: овал как НАЗАД, повёрнут на 90° ----
+   Автоматически на любой странице: следит за верхним элементом
+   (header / .chead / первый элемент body) и появляется, когда он уходит с экрана. */
+(function(){
+  let toTop=document.getElementById("toTop");
+  if(!toTop){
+    toTop=document.createElement("button");
+    toTop.className="toTop";
+    toTop.id="toTop";
+    toTop.setAttribute("aria-label","Наверх");
+    toTop.setAttribute("title","Наверх");
+    toTop.innerHTML='<svg width="46" height="16" viewBox="0 0 48 16" aria-hidden="true"><path d="M46 8 H5 M13 2 L5 8 L13 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    document.body.appendChild(toTop);
+  }
+  const topEl=document.querySelector("header")||document.querySelector(".chead")||document.body.firstElementChild;
+  if("IntersectionObserver" in window&&topEl&&topEl!==toTop){
+    const io=new IntersectionObserver(en=>{
+      toTop.classList.toggle("show",!en[0].isIntersecting);
+    },{rootMargin:"-60px 0px 0px 0px"});
+    io.observe(topEl);
+  }else{
+    const onScroll=()=>{
+      toTop.classList.toggle("show",(window.scrollY||document.documentElement.scrollTop)>160);
+    };
+    window.addEventListener("scroll",onScroll,{passive:true});
+    onScroll();
+  }
+  toTop.addEventListener("click",()=>{
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+})();
+
+if(IS_MAIN){
+
 /* ============ ДАННЫЕ: 101 матч (2011-2026) ============ */
 const MATCHES=[
 /* ---- 2011 ---- */
@@ -231,6 +328,7 @@ function flag(c){
 /* ============ ХЕЛПЕРЫ ============ */
 let lang="ru";
 let tab="stadiums";
+let tabChosen=false; /* подсветка квадратной карточки появляется только после явного выбора вкладки */
 let yearFilter="all";
 let stFilter=null;
 let countryFilter=null;
@@ -312,7 +410,7 @@ function gotoStadiumDebut(st){
   if(idx<0)return;
   const y=MATCHES[idx].d.slice(0,4);
   if(yearFilter!=="all"&&yearFilter!==y)yearFilter="all";
-  stFilter=null;countryFilter=null;tab="matches";render();
+  stFilter=null;countryFilter=null;tab="matches";tabChosen=true;render();
   const el=document.getElementById("mcard-"+idx);
   if(el){
     el.scrollIntoView({behavior:"smooth",block:"center"});
@@ -323,7 +421,7 @@ function gotoStadiumDebut(st){
 
 function gotoStadiumRow(st){
   const num=STADIUM_NUM[st];if(!num)return;
-  tab="stadiums";render();
+  tab="stadiums";tabChosen=true;render();
   const el=document.getElementById("srow-"+num);
   if(el){
     el.scrollIntoView({behavior:"smooth",block:"center"});
@@ -418,18 +516,21 @@ const STAT_BTNS=["stadiums","countries"];
 function renderStats(){
   const FIXED={stadiums:18,matches:101,countries:2,cities:11,clubs:82};
   const s=T();
-  const card=(v,l)=>'<div class="st"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
-  const ccard=(v,l,t)=>'<div class="st st-click" data-tab="'+(t||"countries")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
-  const linkCard=(v,l)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l)+"</a>";
+  /* чипы никогда не подсвечиваются по умолчанию; индикатор активной
+     вкладки — янтарная окантовка квадратной карточки (класс sel) */
+  const card=(v,l,sel)=>'<div class="st'+(sel?" sel":"")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
+  const ccard=(v,l,t,sel)=>'<div class="st st-click'+(sel?" sel":"")+'" data-tab="'+(t||"countries")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
+  const linkCard=(v,l,sel)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l,sel)+"</a>";
   const order=["stadiums","matches","countries","cities","clubs"];
-  document.getElementById("statgrid").innerHTML=order.map(k=>
-    '<div class="col">'
-    +(k==="stadiums"?linkCard(FIXED[k],s.tabs[k]):ccard(FIXED[k],s.tabs[k],k))
+  document.getElementById("statgrid").innerHTML=order.map(k=>{
+    const sel=tabChosen&&tab===k;
+    return '<div class="col">'
+    +(k==="stadiums"?linkCard(FIXED[k],s.tabs[k],sel):ccard(FIXED[k],s.tabs[k],k,sel))
     +(STAT_BTNS.indexOf(k)>=0
-        ?'<button data-t="'+k+'"'+(tab===k?' class="on"':'')+'>'+s.tabs[k]+"</button>"
-        :'<button class="static"'+(tab===k?' data-on="1"':'')+'>'+s.tabs[k]+"</button>")
-    +"</div>"
-  ).join("");
+        ?'<button data-t="'+k+'">'+s.tabs[k]+"</button>"
+        :'<button class="static">'+s.tabs[k]+"</button>")
+    +"</div>";
+  }).join("");
 }
 
 /* ============ ЦВЕТ МЕТКИ: кленовый сироп ============ */
@@ -453,10 +554,10 @@ function renderStats(){
 
 /* ============ СОБЫТИЯ ============ */
 document.getElementById("statgrid").addEventListener("click",e=>{
-  const c=e.target.closest(".st-click");if(c){tab=c.dataset.tab||"countries";render();return;}
+  const c=e.target.closest(".st-click");if(c){tab=c.dataset.tab||"countries";tabChosen=true;render();return;}
   const b=e.target.closest("button[data-t]");if(!b)return;
-  if(b.dataset.t==="countries"){window.open("countries.html","_blank");return;}
-  tab=b.dataset.t;render();
+  if(b.dataset.t==="countries"){openCountries();return;} /* чип «Страны» открывает оверлей, подсветки не даёт */
+  tab=b.dataset.t;tabChosen=true;render();
 });
 document.querySelector(".lang").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
@@ -464,9 +565,9 @@ document.querySelector(".lang").addEventListener("click",e=>{
 });
 document.getElementById("content").addEventListener("click",e=>{
   const cc=e.target.closest("[data-ccf]");
-  if(cc){countryFilter=cc.dataset.ccf;stFilter=null;yearFilter="all";tab="matches";render();return;}
+  if(cc){countryFilter=cc.dataset.ccf;stFilter=null;yearFilter="all";tab="matches";tabChosen=true;render();return;}
   const n=e.target.closest(".name-link");
-  if(n){stFilter=n.dataset.stf;countryFilter=null;yearFilter="all";tab="matches";render();return;}
+  if(n){stFilter=n.dataset.stf;countryFilter=null;yearFilter="all";tab="matches";tabChosen=true;render();return;}
   if(e.target.closest(".stclear")){stFilter=null;countryFilter=null;ccStFilter=null;if(tab==="matches")renderMatches();else render();return;}
   const s=e.target.closest(".badge-link");
   if(s){gotoStadiumDebut(s.dataset.st);return;}
@@ -479,8 +580,9 @@ document.getElementById("content").addEventListener("click",e=>{
 (function(){
   const qp=new URLSearchParams(location.search);
   const qt=qp.get("tab");
-  if(qt&&["matches","clubs","stadiums","countries","cities"].indexOf(qt)>=0)tab=qt;
+  if(qt&&["matches","clubs","stadiums","countries","cities"].indexOf(qt)>=0){tab=qt;tabChosen=true;}
   const qc=qp.get("cc");
-  if(qc){ccStFilter=qc;tab="stadiums";}
+  if(qc){ccStFilter=qc;tab="stadiums";tabChosen=true;}
 })();
 render();
+}
