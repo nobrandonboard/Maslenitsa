@@ -146,6 +146,11 @@ main{max-width:900px;margin:0 auto 60px;padding:0 16px}
 #countries-overlay iframe{width:100%;height:100%;border:0;display:block}
 body.no-scroll{overflow:hidden}
 
+/* ---- оверлей карты (открывается в этой же вкладке, как Страны) ---- */
+#map-overlay{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none}
+#map-overlay.open{display:block}
+#map-overlay iframe{width:100%;height:100%;border:0;display:block}
+
 /* ---- универсальная кнопка «Назад» (копия кнопки со страницы Страны) ---- */
 .back{
   display:inline-flex;align-items:center;justify-content:center;

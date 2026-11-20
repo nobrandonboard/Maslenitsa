@@ -26,14 +26,34 @@ function closeCountries(){
   document.body.classList.remove("no-scroll");
 }
 
+/* ---- оверлей карты (как Страны: в этой же вкладке) ---- */
+let mapOverlay=null;
+function pageLang(){const b=document.querySelector(".lang button.on");return b&&b.dataset.l?b.dataset.l:"ru";}
+function openMap(){
+  if(!mapOverlay){
+    mapOverlay=document.createElement("div");
+    mapOverlay.id="map-overlay";
+    mapOverlay.innerHTML='<iframe id="map-frame" src="map.html" title="Карта"></iframe>';
+    document.body.appendChild(mapOverlay);
+  }
+  mapOverlay.querySelector("iframe").src="map.html?lang="+pageLang();
+  mapOverlay.classList.add("open");
+  document.body.classList.add("no-scroll");
+}
+function closeMap(){
+  if(!mapOverlay)return;
+  mapOverlay.classList.remove("open");
+  document.body.classList.remove("no-scroll");
+}
+
 if(IS_MAIN){
   /* сообщения со вложенных страниц (Страны и будущие): закрыть оверлей / перейти по ссылке */
   window.addEventListener("message",e=>{
-    if(e.data==="fp:countries-close"){closeCountries();return;}
+    if(e.data==="fp:countries-close"){closeCountries();closeMap();return;}
     if(e.data&&e.data.fp==="goto"){closeCountries();location.href=e.data.url;}
   });
   window.addEventListener("keydown",e=>{
-    if(e.key==="Escape"&&countriesOverlay&&countriesOverlay.classList.contains("open"))closeCountries();
+    if(e.key==="Escape"){if(countriesOverlay&&countriesOverlay.classList.contains("open"))closeCountries();if(mapOverlay&&mapOverlay.classList.contains("open"))closeMap();}
   });
 }
 
@@ -255,15 +275,17 @@ function badgeText(n){
 /* ============ ПЕРЕВОДЫ ============ */
 const I18N={
   ru:{slogan:"Ишь ты, Масленица! / граундхоппер из Сибири",locale:"ru-RU",
-      tabs:{matches:"Матчи",clubs:"Клубы",stadiums:"Стадионы",countries:"Страны",cities:"Города"},
+      tabs:{matches:"Матчи",clubs:"Клубы",stadiums:"Стадионы",countries:"Страны",cities:"Города",map:"Карта"},
+      onMap:"на карте",
       stats:{matches:"матчей",countries:"стран",stadiums:"стадионов",cities:"городов",clubs:"клубов"},
       new:"новый стадион",free:"бесплатно",all:"Все",stl:"Стадион:",ctl:"Страна:",clr:"✕ показать все"},
   en:{slogan:"Well, well — it's Maslenitsa! / groundhopper from Siberia",locale:"en-GB",
-      tabs:{matches:"Matches",clubs:"Clubs",stadiums:"Stadiums",countries:"Countries",cities:"Cities"},
+      tabs:{matches:"Matches",clubs:"Clubs",stadiums:"Stadiums",countries:"Countries",cities:"Cities",map:"Map"},
+      onMap:"on the map",
       stats:{matches:"matches",countries:"countries",stadiums:"stadiums",cities:"cities",clubs:"clubs"},
       new:"new stadium",free:"free entry",all:"All",stl:"Stadium:",ctl:"Country:",clr:"✕ show all"},
   zh:{slogan:"哟，是的 — 谢肉节到了！/ 来自西伯利亚的球场旅行者",locale:"zh-CN",
-      tabs:{matches:"比赛",clubs:"俱乐部",stadiums:"体育场",countries:"国家",cities:"城市"},
+      tabs:{matches:"比赛",clubs:"俱乐部",stadiums:"体育场",countries:"国家",cities:"城市",map:"地图"},
       stats:{matches:"场",countries:"国家",stadiums:"体育场",cities:"城市",clubs:"俱乐部"},
       new:"新体育场",free:"免费",all:"全部",stl:"体育场：",ctl:"国家：",clr:"✕ 显示全部"}
 };
@@ -511,7 +533,7 @@ function render(){
 const MAP_URL="https://www.google.com/maps/d/u/0/edit?mid=1ZVQb9u8lfBeSaSMGkvcbnLCBwhezRBo&usp=sharing";
 
 /* Статистика зафиксирована по данным владельца: 101 матч, 2 страны, 18 стадионов, 11 городов, 82 клуба */
-const STAT_BTNS=["stadiums","countries"];
+const STAT_BTNS=["stadiums","countries","map"];
 
 function renderStats(){
   const FIXED={stadiums:18,matches:101,countries:2,cities:11,clubs:82};
@@ -521,11 +543,12 @@ function renderStats(){
   const card=(v,l,sel)=>'<div class="st'+(sel?" sel":"")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
   const ccard=(v,l,t,sel)=>'<div class="st st-click'+(sel?" sel":"")+'" data-tab="'+(t||"countries")+'"><div class="v">'+v+'</div><div class="l">'+l+"</div></div>";
   const linkCard=(v,l,sel)=>'<a class="st-link" href="'+MAP_URL+'" target="_blank" rel="noopener">'+card(v,l,sel)+"</a>";
-  const order=["stadiums","matches","countries","cities","clubs"];
+  const order=["stadiums","matches","countries","cities","clubs","map"];
   document.getElementById("statgrid").innerHTML=order.map(k=>{
     const sel=tabChosen&&tab===k;
     return '<div class="col">'
-    +(k==="stadiums"?linkCard(FIXED[k],s.tabs[k],sel):ccard(FIXED[k],s.tabs[k],k,sel))
+    +(k==="stadiums"?linkCard(FIXED[k],s.tabs[k],sel)
+    :(k==="map"?ccard("🗺",s.onMap,"map",sel):ccard(FIXED[k],s.tabs[k],k,sel)))
     +(STAT_BTNS.indexOf(k)>=0
         ?'<button data-t="'+k+'">'+s.tabs[k]+"</button>"
         :'<button class="static">'+s.tabs[k]+"</button>")
@@ -554,9 +577,10 @@ function renderStats(){
 
 /* ============ СОБЫТИЯ ============ */
 document.getElementById("statgrid").addEventListener("click",e=>{
-  const c=e.target.closest(".st-click");if(c){tab=c.dataset.tab||"countries";tabChosen=true;render();return;}
+  const c=e.target.closest(".st-click");if(c){if(c.dataset.tab==="map"){openMap();return;}tab=c.dataset.tab||"countries";tabChosen=true;render();return;}
   const b=e.target.closest("button[data-t]");if(!b)return;
   if(b.dataset.t==="countries"){openCountries();return;} /* чип «Страны» открывает оверлей, подсветки не даёт */
+  if(b.dataset.t==="map"){openMap();return;} /* чип «Карта» открывает оверлей с Яндекс.Картой */
   tab=b.dataset.t;tabChosen=true;render();
 });
 document.querySelector(".lang").addEventListener("click",e=>{
